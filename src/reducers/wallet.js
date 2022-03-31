@@ -1,3 +1,4 @@
+import { SET_CURRENCIES } from '../actions/index';
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 const INITIAL_STATE = {
   currencies: [],
@@ -6,6 +7,10 @@ const INITIAL_STATE = {
 
 function wallet(state = INITIAL_STATE, action) {
   switch (action.type) {
+  case SET_CURRENCIES:
+    return {
+      ...state, currencies: action.currencies,
+    };
   default:
     return state;
   }
