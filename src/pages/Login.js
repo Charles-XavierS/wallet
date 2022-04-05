@@ -17,7 +17,7 @@ class Login extends React.Component {
     this.validateForm = this.validateForm.bind(this);
   }
 
-  validateForm = () => {
+  validateForm() {
     const { email, password } = this.state;
     const minPassword = 6;
     this.setState({ disabled: true });
@@ -26,14 +26,14 @@ class Login extends React.Component {
     }
   }
 
-  handleChange = ({ target }) => {
+  handleChange({ target }) {
     const { name, value } = target;
     this.setState({ [name]: value }, () => {
       this.validateForm();
     });
   }
 
-  handleClick = () => {
+  handleClick() {
     const { email } = this.state;
     const { history, emailLogin } = this.props;
     emailLogin(email);

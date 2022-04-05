@@ -1,15 +1,27 @@
 // Coloque aqui suas actions
 export const LOGIN_EMAIL = 'LOGIN_EMAIL';
 export const SET_CURRENCIES = 'SET_CURRENCIES';
+export const ADD_EXPENSES = 'ADD_EXPENSES';
+export const EXCHANGE_RATE = 'EXCHANGE_RATE';
 
 export const loginEmail = (email) => ({
   type: LOGIN_EMAIL,
-  email,
+  payload: email,
 });
 
-export const setCurrencies = (currencies) => ({
+export const setCurrencies = (currencies, api) => ({
   type: SET_CURRENCIES,
-  currencies,
+  payload: currencies,
+});
+
+export const addExpenses = (expenses) => ({
+  type: ADD_EXPENSES,
+  expenses,
+});
+
+export const exchanges = (api) => ({
+  type: EXCHANGE_RATE,
+  payload: api
 });
 
 export const fetchApi = () => async (dispatch) => {
@@ -19,4 +31,12 @@ export const fetchApi = () => async (dispatch) => {
   const filterCurrencies = Object.keys(data)
     .filter((coins) => coins !== 'USDT');
   dispatch(setCurrencies(filterCurrencies));
+};
+
+export const fetchExchange = () => async (dispatch) => {
+  const URL = 'https://economia.awesomeapi.com.br/json/all';
+  const response = await fetch(URL);
+  const data = await response.json();
+  delete data.USDT;
+  dispatch(exchanges(data));
 };
