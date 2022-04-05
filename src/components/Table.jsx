@@ -6,7 +6,7 @@ class Table extends React.Component {
   render() {
     const { expenses } = this.props;
     return (
-      
+
       <section>
 
         <table>
@@ -27,7 +27,7 @@ class Table extends React.Component {
 
           </thead>
 
-          <tbody >
+          <tbody>
 
             {expenses.map((expense) => (
               <tr key={ expense.id }>
@@ -40,12 +40,14 @@ class Table extends React.Component {
                   {Number(expense.exchangeRates[expense.currency].ask).toFixed(2)}
                 </td>
                 <td>
-                  { (expense.exchangeRates[expense.currency].ask * expense.value).toFixed(2) }
+                  { (expense.exchangeRates[expense.currency]
+                    .ask * expense.value).toFixed(2) }
                 </td>
                 <td>Real</td>
                 <td>
-                  <input type="button" value="Editar" /> <input type="button" value="Excluir" />
-                  
+                  <input type="button" value="Editar" />
+                  <input type="button" value="Excluir" />
+
                 </td>
               </tr>
 

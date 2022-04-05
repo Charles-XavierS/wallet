@@ -9,7 +9,7 @@ export const loginEmail = (email) => ({
   payload: email,
 });
 
-export const setCurrencies = (currencies, api) => ({
+export const setCurrencies = (currencies) => ({
   type: SET_CURRENCIES,
   payload: currencies,
 });
@@ -21,7 +21,7 @@ export const addExpenses = (expenses) => ({
 
 export const exchanges = (api) => ({
   type: EXCHANGE_RATE,
-  payload: api
+  payload: api,
 });
 
 export const fetchApi = () => async (dispatch) => {
