@@ -3,6 +3,7 @@ export const LOGIN_EMAIL = 'LOGIN_EMAIL';
 export const SET_CURRENCIES = 'SET_CURRENCIES';
 export const ADD_EXPENSES = 'ADD_EXPENSES';
 export const EXCHANGE_RATE = 'EXCHANGE_RATE';
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 
 export const loginEmail = (email) => ({
   type: LOGIN_EMAIL,
@@ -16,7 +17,12 @@ export const setCurrencies = (currencies) => ({
 
 export const addExpenses = (expenses) => ({
   type: ADD_EXPENSES,
-  expenses,
+  payload: expenses,
+});
+
+export const deleteExpense = (expenseId) => ({
+  type: 'DELETE_EXPENSE',
+  payload: expenseId,
 });
 
 export const exchanges = (api) => ({

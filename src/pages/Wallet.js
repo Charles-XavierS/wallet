@@ -17,8 +17,10 @@ class Wallet extends React.Component {
       description: '',
     };
 
+    this.totalExpenses = this.totalExpenses.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.clearForm = this.clearForm.bind(this);
   }
 
   componentDidMount() {
@@ -27,18 +29,17 @@ class Wallet extends React.Component {
     exchangeRates();
   }
 
-  handleChange({ target }) {
-    const { name, value } = target;
-    this.setState({ [name]: value });
-  }
+  totalExpenses() {
+    const { expenses } = this.props;
 
-  clearForm() {
-    this.setState({
-      value: '',
-      currency: 'USD',
-      method: 'Dinheiro',
-      description: '',
-    });
+    const sum = expenses.reduce((acc, act) => {
+      const { exchangeRates, value, currency } = act;
+      const askValue = exchangeRates[currency].ask;
+
+      return acc + (askValue * value);
+    }, 0);
+
+    return sum.toFixed(2);
   }
 
   handleClick() {
@@ -59,12 +60,26 @@ class Wallet extends React.Component {
     this.clearForm();
   }
 
+  clearForm() {
+    this.setState({
+      value: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      description: '',
+    });
+  }
+
+  handleChange({ target }) {
+    const { name, value } = target;
+    this.setState({ [name]: value });
+  }
+
   render() {
     const { email, currencies } = this.props;
     const { value, currency, method,
       tag, description } = this.state;
     const methodsInput = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
-    const total = 0;
+    // const zero = 0;
     return (
       <main>
 
@@ -72,8 +87,7 @@ class Wallet extends React.Component {
 
           <p data-testid="email-field">{ email }</p>
           <p data-testid="total-field">
-            Total: R$
-            { total }
+            {`Total:  ${this.totalExpenses()}` }
           </p>
           <p data-testid="header-currency-field">BRL</p>
 
@@ -170,6 +184,7 @@ const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
   expenses: state.wallet.expenses,
   api: state.wallet.api,
+  // totalExpenses: state.wallet.totalExpenses,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -185,7 +200,7 @@ Wallet.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
   exchangeRates: PropTypes.func.isRequired,
-  api: PropTypes.objectOf(PropTypes.object).isRequired,
-};
+  api: PropTypes.objectOf(PropTypes.object),
+}.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
